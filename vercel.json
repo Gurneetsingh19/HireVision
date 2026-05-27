@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path((?!auth).*)",
+      "destination": "/api/main.py"
+    }
+  ]
+}

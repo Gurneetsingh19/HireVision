@@ -98,7 +98,7 @@ export default function InterviewRoom() {
         formData.append("file", blob, "frame.jpg");
 
         try {
-          const response = await fetch("http://127.0.0.1:8000/detect-face", {
+          const response = await fetch("/api/detect-face", {
             method: "POST",
             body: formData,
           });
@@ -141,7 +141,7 @@ export default function InterviewRoom() {
     const resume = JSON.parse(data);
 
     setStatus('processing');
-    fetch("http://127.0.0.1:8000/interview", {
+    fetch("/api/interview", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +176,7 @@ export default function InterviewRoom() {
   const playVoice = async (text) => {
     setStatus('speaking');
     try {
-      const response = await fetch("http://127.0.0.1:8000/speak", {
+      const response = await fetch("/api/speak", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -315,7 +315,7 @@ export default function InterviewRoom() {
     const resumeData = JSON.parse(localStorage.getItem("resumeData"));
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/interview", {
+      const response = await fetch("/api/interview", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ export default function CandidateUploadPage() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/analyze-resume", {
+      const response = await fetch("/api/resume", {
         method: "POST",
         body: formData,
       });
@@ -34,7 +34,7 @@ export default function CandidateUploadPage() {
       const data = await response.json();
 
       await fetch(
-        "http://127.0.0.1:8000/save-resume",
+        "/api/save-resume",
         {
           method: "POST",
           headers: {
