@@ -1,7 +1,7 @@
-#HireVision AI
+# HireVision AI
 AI-Powered Technical Interview Platform
 
-#Overview
+# Overview
 
 HireVision AI is an AI-powered technical interview platform designed to help candidates prepare and experience realistic interviews.
 
@@ -11,13 +11,13 @@ After resume processing, the candidate starts an AI interview where questions ar
 
 The platform currently focuses on the candidate experience and interview automation.
 
-#Features
+# Features
     Authentication
     Candidate Login / Signup
     Secure password storage
     Role-based user handling
 
-#Resume Upload & Processing
+# Resume Upload & Processing
     Upload resume before interview
     ##AI extracts:
         Skills
@@ -27,19 +27,19 @@ The platform currently focuses on the candidate experience and interview automat
     Stores only the latest uploaded resume
     Resume data saved in MongoDB
 
-#AI Interview System
+# AI Interview System
     AI introduction before interview
     Resume-based questions
     Dynamic follow-up questions
     One question at a time
     Technical interview simulation
 
-#Voice Interaction
+# Voice Interaction
     AI speaks interview questions
     Candidate responds using microphone
     Continuous voice interview experience
 
-#Database Management
+# Database Management
     User information stored securely
     Resume information stored separately
     New uploaded resume replaces previous one
@@ -48,7 +48,7 @@ The platform currently focuses on the candidate experience and interview automat
         ├── users
         └── resumes
 
-#Tech Stack
+# Tech Stack
 -Frontend
 -Next.js
 -React
@@ -83,7 +83,7 @@ Candidate Answers
 Interview Continues
 
 
-#Installation
+# Installation
 
     Clone:
 
@@ -124,13 +124,13 @@ Interview Continues
     ```bash
     uvicorn main:app --reload
     ```
-#Future Scope
+# Future Scope
     Company Dashboard
     Interview Reports
     Eye Tracking
     Candidate Analytics
     Behavioral Monitoring
 
-#Goal
+# Goal
 
 HireVision AI aims to provide candidates with a smarter, more interactive, and realistic technical interview experience using Artificial Intelligence.
