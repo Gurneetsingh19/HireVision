@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#HireVision AI
+AI-Powered Technical Interview Platform
 
-## Getting Started
+#Overview
 
-First, run the development server:
+HireVision AI is an AI-powered technical interview platform designed to help candidates prepare and experience realistic interviews.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+In this platform, candidates first create an account and upload their resume. The system extracts important information such as skills, education, projects, and experience using AI.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After resume processing, the candidate starts an AI interview where questions are generated based on the uploaded resume. The interview includes voice interaction to simulate a real technical interview experience.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+The platform currently focuses on the candidate experience and interview automation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+#Features
+    Authentication
+    Candidate Login / Signup
+    Secure password storage
+    Role-based user handling
 
-## Learn More
+#Resume Upload & Processing
+    Upload resume before interview
+    ##AI extracts:
+        Skills
+        Education
+        Projects
+        Experience
+    Stores only the latest uploaded resume
+    Resume data saved in MongoDB
 
-To learn more about Next.js, take a look at the following resources:
+#AI Interview System
+    AI introduction before interview
+    Resume-based questions
+    Dynamic follow-up questions
+    One question at a time
+    Technical interview simulation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#Voice Interaction
+    AI speaks interview questions
+    Candidate responds using microphone
+    Continuous voice interview experience
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#Database Management
+    User information stored securely
+    Resume information stored separately
+    New uploaded resume replaces previous one
+    ##Database Structure:
+        hirevision
+        ├── users
+        └── resumes
 
-## Deploy on Vercel
+#Tech Stack
+-Frontend
+-Next.js
+-React
+-Tailwind CSS
+-Backend
+-FastAPI
+-Python
+-Database
+-MongoDB Atlas
+-AI Services
+-Groq API
+-Resume Extraction AI
+-ElevenLabs
+-Computer Vision (Future Scope)
+-OpenCV
+-MediaPipe
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Candidate Login
+↓
+Upload Resume
+↓
+AI Resume Extraction
+↓
+Save Resume
+↓
+Start Interview
+↓
+AI Voice Questions
+↓
+Candidate Answers
+↓
+Interview Continues
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+#Installation
+
+    Clone:
+
+    ```bash
+    git clone YOUR_REPOSITORY_URL
+    ```
+    Install frontend:
+
+    ```bash
+    npm install
+    ```
+    Install backend:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+    Environment variables:
+
+    ```bash
+    MONGO_URI=
+    ```
+
+    ```bash
+    GROQ_API_KEY=
+    ```
+
+    ```bash
+    ELEVENLABS_API_KEY=
+    ```
+    Run frontend:
+
+    ```bash
+    npm run dev
+    ```
+
+    Run backend:
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+#Future Scope
+    Company Dashboard
+    Interview Reports
+    Eye Tracking
+    Candidate Analytics
+    Behavioral Monitoring
+
+#Goal
+
+HireVision AI aims to provide candidates with a smarter, more interactive, and realistic technical interview experience using Artificial Intelligence.
