@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from interview import router as interview_router
 from fastapi import FastAPI, UploadFile, File
 from voice import router as voice_router
-from face_API import router as face_router
+# from face_API import router as face_router
 from auth import router as auth_router
 from resume import router as resume_router
 import google.generativeai as genai
@@ -21,7 +21,7 @@ app = FastAPI()
 app.include_router(voice_router)
 app.include_router(interview_router)
 
-app.include_router(face_router)
+# app.include_router(face_router)
 
 app.include_router(
  auth_router
