@@ -18,10 +18,11 @@ export default function LoginPage() {
     let isSuccess = false;
     let userRole = "";
     let userData = null;
-
+    
+  const API_URL = process.env.NEW_PUBLIC_API;
     try {
       const response = await fetch(
-        "/api/login",
+        `${API_URL}/login`,
         {
           method: "POST",
           headers: {

@@ -21,7 +21,7 @@ export default function InterviewRoom() {
   const localStreamRef = useRef(null);
   const recognitionRef = useRef(null);
   const currentAudioRef = useRef(null);
-
+  const API_URL = process.env.NEW_PUBLIC_API;
   // Sync state functions with their references
   const setStatus = (val) => {
     statusRef.current = val;
@@ -98,7 +98,7 @@ export default function InterviewRoom() {
         formData.append("file", blob, "frame.jpg");
 
         try {
-          const response = await fetch("/api/detect-face", {
+          const response = await fetch(`${API_URL}/interview`, {
             method: "POST",
             body: formData,
           });

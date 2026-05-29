@@ -13,7 +13,7 @@ export default function CandidateUploadPage() {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  const API_URL = process.env.NEW_PUBLIC_API;
     setLoading(true);
     setSuccess(false);
     setError(false);
@@ -22,7 +22,7 @@ export default function CandidateUploadPage() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("/api/resume", {
+      const response = await fetch(`${API_URL}/resume`, {
         method: "POST",
         body: formData,
       });

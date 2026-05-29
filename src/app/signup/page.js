@@ -19,7 +19,7 @@ export default function SignupPage() {
     if (e) e.preventDefault();
     setError('');
     setSuccess('');
-
+    const API_URL = process.env.NEW_PUBLIC_API;
     // Validate password and confirmPassword match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -30,7 +30,7 @@ export default function SignupPage() {
 
     try {
       // Call FastAPI signup endpoint
-      const response = await fetch("/api/signup", {
+      const response = await fetch(`${API_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
