@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pymongo
+python-dotenv
+bcrypt
+python-multipart
+pymupdf
+groq
+elevenlabs
+google-generativeai
+certifi
+numpy
+opencv-python-headless
+mediapipe
