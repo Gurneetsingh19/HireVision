@@ -10,5 +10,3 @@ elevenlabs
 google-generativeai
 certifi
 numpy
-opencv-python-headless
-mediapipe
