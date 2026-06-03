@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const API_URL = process.env.NEW_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const handleLogin = async () => {
     setError("");
     let isSuccess = false;

@@ -9,7 +9,7 @@ export default function CandidateUploadPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const API_URL = process.env.NEW_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;

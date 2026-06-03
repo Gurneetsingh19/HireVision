@@ -21,7 +21,7 @@ export default function InterviewRoom() {
   const localStreamRef = useRef(null);
   const recognitionRef = useRef(null);
   const currentAudioRef = useRef(null);
-  const API_URL = process.env.NEW_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   // Sync state functions with their references
   const setStatus = (val) => {
     statusRef.current = val;

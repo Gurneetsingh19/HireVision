@@ -14,7 +14,7 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const API_URL = process.env.NEW_PUBLIC_API;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const handleSignup = async (e) => {
     if (e) e.preventDefault();
     setError('');
