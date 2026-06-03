@@ -1,62 +1,7 @@
-# from fastapi import APIRouter
-# from dotenv import load_dotenv
-# import google.generativeai as genai
-# import os
-# load_dotenv()
 
-# router = APIRouter()
-
-# @router.post("/interview")
-# async def interview(data: dict):
-    
-#     resume_data = data.get("resume")
-#     history = data.get("history")
-
-#     genai.configure(
-#     api_key=os.getenv("INTERVIEW_GEMINI_API_KEY")
-#     )
-
-#     model = genai.GenerativeModel("models/gemini-2.5-flash")
-
-#     prompt = f"""
-# You are a professional AI interviewer conducting a real technical interview.
-
-# Your personality:
-# - Natural
-# - Conversational
-# - Professional
-# - Human-like
-
-# Rules:
-# -Ask only ONE short question at a time.
-# - If this is the first question, ask a short intro question.
-# - Maximum 15 words.
-# - Do not explain the question.
-# - Do not give examples.
-# - Do not write long paragraphs.
-# - Avoid repeating the same question.
-# - React naturally to candidate answers.
-# - Ask follow-up questions.
-# - Keep conversation realistic.
-
-# Candidate Resume:
-# {resume_data}
-
-# Conversation History:
-# {history}
-
-# Generate the next interview question.
-# """
-
-#     response = model.generate_content(prompt)
-
-#     return {
-#         "question": response.text
-#     }
-    
 import os
 from dotenv import load_dotenv
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from groq import Groq
 
 load_dotenv()
@@ -68,7 +13,20 @@ client = Groq(
 )
 
 @router.post("/interview")
-async def interview(data: dict):
+async def interview(request: Request):
+
+    # ✅ FIX: Content-type check - face detection image aaye toh ignore karo
+    content_type = request.headers.get("content-type", "")
+
+    if "multipart/form-data" in content_type:
+        # Face detection wali request hai - MediaPipe/OpenCV handle karega
+        return {"face_detected": True}
+
+    # ✅ Normal interview JSON request
+    try:
+        data = await request.json()
+    except Exception:
+        return {"error": "Invalid JSON request"}
 
     resume_data = data.get("resume")
     history = data.get("history", [])

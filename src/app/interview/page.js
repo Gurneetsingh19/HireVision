@@ -22,6 +22,7 @@ export default function InterviewRoom() {
   const recognitionRef = useRef(null);
   const currentAudioRef = useRef(null);
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   // Sync state functions with their references
   const setStatus = (val) => {
     statusRef.current = val;
@@ -98,6 +99,7 @@ export default function InterviewRoom() {
         formData.append("file", blob, "frame.jpg");
 
         try {
+          // ✅ FIX: API_URL use karo - same as interview endpoint
           const response = await fetch(`${API_URL}/interview`, {
             method: "POST",
             body: formData,
@@ -141,7 +143,9 @@ export default function InterviewRoom() {
     const resume = JSON.parse(data);
 
     setStatus('processing');
-    fetch("/api/interview", {
+
+    // ✅ FIX: /api/interview → API_URL/interview (backend pe jaana chahiye)
+    fetch(`${API_URL}/interview`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +180,8 @@ export default function InterviewRoom() {
   const playVoice = async (text) => {
     setStatus('speaking');
     try {
-      const response = await fetch("/api/speak", {
+      // ✅ FIX: /api/speak → API_URL/speak (backend pe jaana chahiye)
+      const response = await fetch(`${API_URL}/speak`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -223,7 +228,6 @@ export default function InterviewRoom() {
       await audio.play();
     } catch (err) {
       console.error("Error playing voice synthesis:", err);
-      // Fallback: automatically trigger recognition if voiceMode is active
       if (voiceModeStartedRef.current) {
         triggerSpeechRecognition();
       } else {
@@ -303,11 +307,11 @@ export default function InterviewRoom() {
     const updatedMessages = [...messagesRef.current, userMessage];
     setMessages(updatedMessages);
 
-    await sendToGemini(updatedMessages);
+    await sendToInterview(updatedMessages);
   };
 
-  // Fetch from /interview
-  const sendToGemini = async (updatedMessages) => {
+  // ✅ FIX: sendToGemini → sendToInterview (Groq use ho raha hai)
+  const sendToInterview = async (updatedMessages) => {
     if (isGeneratingRef.current) return;
     isGeneratingRef.current = true;
     setStatus('processing');
@@ -315,7 +319,8 @@ export default function InterviewRoom() {
     const resumeData = JSON.parse(localStorage.getItem("resumeData"));
 
     try {
-      const response = await fetch("/api/interview", {
+      // ✅ FIX: /api/interview → API_URL/interview
+      const response = await fetch(`${API_URL}/interview`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -460,6 +465,7 @@ export default function InterviewRoom() {
                 
                 {/* Visualizer Sphere */}
                 <div className="relative z-10 w-40 h-40 rounded-full bg-[#0D0E12] border border-white/10 flex flex-col items-center justify-center overflow-hidden shadow-2xl">
+
                   {/* Glowing core indicator */}
                   <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
                     status === 'speaking' ? 'bg-primary/20 border border-primary shadow-[0_0_25px_rgba(79,140,255,0.5)] scale-110' :
@@ -496,45 +502,44 @@ export default function InterviewRoom() {
                   )}
                 </div>
               </div>
-
-              {/* Glowing Dynamic Status Badge */}
-              <div className="flex justify-center mt-6">
-                <div className={`px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono font-bold tracking-wider uppercase border shadow-sm transition-all duration-300 ${
-                  status === 'speaking' ? 'bg-primary/10 border-primary/20 text-primary shadow-[0_0_15px_rgba(79,140,255,0.15)] animate-pulse' :
-                  status === 'listening' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.15)]' :
-                  status === 'processing' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.15)]' :
-                  'bg-white/5 border-white/10 text-gray-400'
-                }`}>
-                  {status === 'speaking' && (
-                    <>
-                      <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
-                      <span>AI Speaking...</span>
-                    </>
-                  )}
-                  {status === 'listening' && (
-                    <>
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                      <span>Listening...</span>
-                    </>
-                  )}
-                  {status === 'processing' && (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Processing Answer...</span>
-                    </>
-                  )}
-                  {status === 'idle' && (
-                    <>
-                      <span className="w-2 h-2 rounded-full bg-gray-500"></span>
-                      <span>Voice Mode Offline</span>
-                    </>
-                  )}
-                </div>
-              </div>
-
             </div>
 
-            {/* Current Question Container Panel (Clean and legible, no scrollable list of bubbles) */}
+            {/* Glowing Dynamic Status Badge */}
+            <div className="flex justify-center mt-6">
+              <div className={`px-4 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono font-bold tracking-wider uppercase border shadow-sm transition-all duration-300 ${
+                status === 'speaking' ? 'bg-primary/10 border-primary/20 text-primary shadow-[0_0_15px_rgba(79,140,255,0.15)] animate-pulse' :
+                status === 'listening' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.15)]' :
+                status === 'processing' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.15)]' :
+                'bg-white/5 border-white/10 text-gray-400'
+              }`}>
+                {status === 'speaking' && (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                    <span>AI Speaking...</span>
+                  </>
+                )}
+                {status === 'listening' && (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>Listening...</span>
+                  </>
+                )}
+                {status === 'processing' && (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Processing Answer...</span>
+                  </>
+                )}
+                {status === 'idle' && (
+                  <>
+                    <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+                    <span>Voice Mode Offline</span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Current Question Container Panel */}
             <div className="p-6 border-t border-white/10 bg-black/40 relative z-10 shrink-0">
               <div className="bg-[#12131A]/90 border border-white/10 rounded-2xl p-5 shadow-inner relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
@@ -561,7 +566,7 @@ export default function InterviewRoom() {
               </div>
             )}
 
-            {/* WebRTC Video Feed (Always ON, video controls removed) */}
+            {/* WebRTC Video Feed (Always ON) */}
             <div className="flex-1 relative bg-black flex items-center justify-center overflow-hidden">
               <video 
                 ref={videoRef} 
@@ -571,17 +576,14 @@ export default function InterviewRoom() {
                 className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" 
               />
               
-              {/* Futuristic corners monitoring HUD */}
               <div className="absolute inset-0 border-4 border-transparent border-t-primary/30 border-l-primary/30 m-4 rounded-xl pointer-events-none transition-all duration-500"></div>
               <div className="absolute inset-0 border-4 border-transparent border-b-primary/30 border-r-primary/30 m-4 rounded-xl pointer-events-none transition-all duration-500"></div>
               
-              {/* Flashing "LIVE MONITORING" feed indicator */}
               <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                 <span className="text-[10px] font-bold font-mono tracking-widest text-gray-300 uppercase">Live Cam Feed</span>
               </div>
 
-              {/* Eye tracking frame */}
               <div className="absolute top-[35%] left-1/2 -translate-x-1/2 w-40 h-20 border border-accent/20 rounded-full flex items-center justify-center pointer-events-none">
                 <div className="w-1.5 h-1.5 bg-accent/40 rounded-full animate-ping"></div>
               </div>
@@ -592,7 +594,7 @@ export default function InterviewRoom() {
               </div>
             </div>
 
-            {/* Controls panel: Standard voice trigger & end interview */}
+            {/* Controls panel */}
             <div className="p-5 bg-white/5 border-t border-white/10 flex flex-col items-center gap-3 shrink-0 z-10">
               <div className="flex items-center justify-center gap-4 w-full">
                 
@@ -627,7 +629,6 @@ export default function InterviewRoom() {
                 </Link>
               </div>
 
-              {/* User micro-helper text */}
               <p className="text-[10px] text-gray-500 font-mono text-center max-w-[280px]">
                 {voiceModeStarted 
                   ? "AI will speak first. When AI stops, speak clearly to reply. Loops automatically."
