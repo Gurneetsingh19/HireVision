@@ -12,14 +12,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const API_URL = process.env.NEW_PUBLIC_API;
   const handleLogin = async () => {
     setError("");
     let isSuccess = false;
     let userRole = "";
     let userData = null;
     
-  const API_URL = process.env.NEW_PUBLIC_API;
+  
     try {
       const response = await fetch(
         `${API_URL}/login`,

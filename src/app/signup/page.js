@@ -14,12 +14,12 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  const API_URL = process.env.NEW_PUBLIC_API;
   const handleSignup = async (e) => {
     if (e) e.preventDefault();
     setError('');
     setSuccess('');
-    const API_URL = process.env.NEW_PUBLIC_API;
+    
     // Validate password and confirmPassword match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
