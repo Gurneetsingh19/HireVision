@@ -16,29 +16,14 @@ load_dotenv()
 
 app = FastAPI()
 
-# ✅ SIRF EK BAAR CORS - allow origins mein dono add hain
+# ✅ CORS configuration allowing all origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "https://hire-vision-flame.vercel.app",
-        "http://localhost:3000",
-    ],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.options("/{rest_of_path:path}")
-async def preflight_handler(rest_of_path: str):
-    return JSONResponse(
-        content={},
-        headers={
-            "Access-Control-Allow-Origin": "https://hire-vision-flame.vercel.app",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-        }
-    )
 
 # ✅ Saare routers ek jagah
 app.include_router(auth_router)
