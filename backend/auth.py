@@ -1,9 +1,31 @@
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 from database import users
 import bcrypt
 
 router = APIRouter()
 
+@router.options("/login")
+async def login_options():
+    return JSONResponse(
+        content={},
+        headers={
+            "Access-Control-Allow-Origin": "https://hire-vision-flame.vercel.app",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
+
+@router.options("/signup")
+async def signup_options():
+    return JSONResponse(
+        content={},
+        headers={
+            "Access-Control-Allow-Origin": "https://hire-vision-flame.vercel.app",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
 
 @router.post("/signup")      #Signup
 async def signup(data: dict):
