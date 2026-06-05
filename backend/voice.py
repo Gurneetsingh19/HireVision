@@ -18,7 +18,7 @@ async def speak(data: dict):
     text = data.get("text")
 
     audio = client.text_to_speech.convert(
-        voice_id="ErXwobaYiN019PkySvjV",
+        voice_id="bx9yHra8BnySloO8G3NG",
         model_id="eleven_multilingual_v2",
         text=text
     )
