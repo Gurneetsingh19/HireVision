@@ -419,7 +419,11 @@ export default function InterviewRoom() {
         <div className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0">
           
           {/* LEFT: AI Interviewer Card (60% width on large screens) */}
-          <GlassCard dark className="lg:flex-[3] flex flex-col relative overflow-hidden border-white/10 !p-0 shadow-2xl">
+          <GlassCard dark className={`lg:flex-[3] flex flex-col relative overflow-hidden !p-0 transition-all duration-500 shadow-2xl ${
+            status === 'speaking' 
+              ? 'border-primary/50 ring-2 ring-primary/30 shadow-[0_0_30px_rgba(59,130,246,0.35)]' 
+              : 'border-white/10'
+          }`}>
             <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
             
             <div className="p-4 border-b border-white/10 flex items-center gap-3 bg-white/5 relative z-10 shrink-0">
@@ -453,54 +457,46 @@ export default function InterviewRoom() {
             <div className="flex-1 flex flex-col items-center justify-center p-8 relative z-10 min-h-0 select-none">
               
               <div className="relative w-48 h-48 rounded-full flex items-center justify-center bg-black/40 border border-white/5 shadow-[0_0_40px_rgba(79,140,255,0.08)]">
-                {/* Outer spinning gradient glow */}
+                {/* Outer spinning gradient glow or pulsing aura */}
                 <div 
-                  className={`absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-purple-500 opacity-20 blur-md ${
-                    status === 'speaking' ? 'animate-spin' : 
-                    status === 'processing' ? 'animate-spin' : 
-                    'animate-pulse'
+                  className={`absolute inset-0 rounded-full bg-gradient-to-tr transition-all duration-500 ${
+                    status === 'speaking' ? 'from-primary via-accent to-purple-500 opacity-60 blur-lg animate-spin' : 
+                    status === 'listening' ? 'from-emerald-400 via-teal-400 to-green-500 opacity-40 blur-md animate-pulse' :
+                    status === 'processing' ? 'from-amber-400 via-orange-400 to-yellow-500 opacity-50 blur-lg animate-spin' : 
+                    'from-white/10 to-white/5 opacity-10 blur-sm'
                   }`}
-                  style={{ animationDuration: status === 'processing' ? '2.5s' : status === 'speaking' ? '7s' : '4s' }}
+                  style={{ animationDuration: status === 'processing' ? '2s' : status === 'speaking' ? '6s' : '4s' }}
                 ></div>
                 
-                {/* Visualizer Sphere */}
-                <div className="relative z-10 w-40 h-40 rounded-full bg-[#0D0E12] border border-white/10 flex flex-col items-center justify-center overflow-hidden shadow-2xl">
+                {/* Visualizer Sphere containing Zoom-like profile picture */}
+                <div className={`relative z-10 w-40 h-40 rounded-full bg-[#0D0E12] border-2 transition-all duration-500 flex flex-col items-center justify-center overflow-hidden shadow-2xl ${
+                  status === 'speaking' ? 'border-primary shadow-[0_0_20px_rgba(59,130,246,0.3)] scale-105' :
+                  status === 'listening' ? 'border-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.3)] scale-100' :
+                  status === 'processing' ? 'border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)] scale-102' :
+                  'border-white/10'
+                }`}>
+                  <img 
+                    src="/ai-avatar.jpg" 
+                    alt="AI Interviewer" 
+                    className="w-full h-full object-cover" 
+                  />
 
-                  {/* Glowing core indicator */}
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-500 ${
-                    status === 'speaking' ? 'bg-primary/20 border border-primary shadow-[0_0_25px_rgba(79,140,255,0.5)] scale-110' :
-                    status === 'listening' ? 'bg-emerald-500/20 border border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.5)] scale-125 animate-pulse' :
-                    status === 'processing' ? 'bg-amber-500/20 border border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)] animate-bounce scale-105' :
-                    'bg-white/5 border border-white/10 scale-100'
-                  }`}>
-                    {status === 'speaking' && <Volume2 className="text-primary w-8 h-8" />}
-                    {status === 'listening' && <Mic className="text-emerald-400 w-8 h-8" />}
-                    {status === 'processing' && <RefreshCw className="text-amber-400 w-8 h-8 animate-spin" />}
-                    {status === 'idle' && <Sparkles className="text-gray-400 w-8 h-8" />}
-                  </div>
-                  
-                  {/* Subtle Waveforms Inside Core (only active during speaking) */}
+                  {/* Overlay indicating status on top of avatar (subtle overlay tint) */}
                   {status === 'speaking' && (
-                    <div className="absolute bottom-6 flex items-end gap-1 h-6">
-                      {[1, 2, 3, 4, 5].map((i) => (
-                        <div 
-                          key={i} 
-                          className="w-1 bg-primary/70 rounded-full animate-pulse" 
-                          style={{ 
-                            height: `${30 + Math.random() * 70}%`, 
-                            animationDelay: `${i * 0.15}s`, 
-                            animationDuration: '0.5s' 
-                          }}
-                        ></div>
-                      ))}
-                    </div>
+                    <div className="absolute inset-0 bg-primary/5 pointer-events-none rounded-full"></div>
                   )}
-
-                  {/* Pulsing Concentric Radar Rings (only active during listening) */}
                   {status === 'listening' && (
-                    <div className="absolute inset-0 rounded-full border border-emerald-400/20 animate-ping pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-emerald-500/5 pointer-events-none rounded-full"></div>
                   )}
                 </div>
+
+                {/* Pulsing rings for active voice indicators */}
+                {status === 'listening' && (
+                  <div className="absolute inset-0 rounded-full border-2 border-emerald-400/30 animate-ping pointer-events-none"></div>
+                )}
+                {status === 'speaking' && (
+                  <div className="absolute -inset-2 rounded-full border-2 border-primary/20 animate-pulse pointer-events-none"></div>
+                )}
               </div>
             </div>
 
@@ -555,7 +551,11 @@ export default function InterviewRoom() {
           </GlassCard>
 
           {/* RIGHT: Candidate Video Feed (40% width on large screens) */}
-          <GlassCard dark className="lg:flex-[2] relative overflow-hidden border-white/10 flex flex-col !p-0 shadow-2xl">
+          <GlassCard dark className={`lg:flex-[2] relative overflow-hidden flex flex-col !p-0 transition-all duration-500 shadow-2xl ${
+            status === 'listening' 
+              ? 'border-emerald-500/50 ring-2 ring-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.35)]' 
+              : 'border-white/10'
+          }`}>
             {/* Warning Alert Overlay */}
             {alert && (
               <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 animate-fade-in w-[90%]">
@@ -576,8 +576,16 @@ export default function InterviewRoom() {
                 className="absolute inset-0 w-full h-full object-cover scale-x-[-1]" 
               />
               
-              <div className="absolute inset-0 border-4 border-transparent border-t-primary/30 border-l-primary/30 m-4 rounded-xl pointer-events-none transition-all duration-500"></div>
-              <div className="absolute inset-0 border-4 border-transparent border-b-primary/30 border-r-primary/30 m-4 rounded-xl pointer-events-none transition-all duration-500"></div>
+              <div className={`absolute inset-0 border-4 border-transparent m-4 rounded-xl pointer-events-none transition-all duration-500 ${
+                status === 'listening' 
+                  ? 'border-t-emerald-500/60 border-l-emerald-500/60' 
+                  : 'border-t-primary/30 border-l-primary/30'
+              }`}></div>
+              <div className={`absolute inset-0 border-4 border-transparent m-4 rounded-xl pointer-events-none transition-all duration-500 ${
+                status === 'listening' 
+                  ? 'border-b-emerald-500/60 border-r-emerald-500/60' 
+                  : 'border-b-primary/30 border-r-primary/30'
+              }`}></div>
               
               <div className="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
                 <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
