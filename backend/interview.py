@@ -15,14 +15,14 @@ client = Groq(
 @router.post("/interview")
 async def interview(request: Request):
 
-    # ✅ FIX: Content-type check - face detection image aaye toh ignore karo
+    
     content_type = request.headers.get("content-type", "")
 
     if "multipart/form-data" in content_type:
-        # Face detection wali request hai - MediaPipe/OpenCV handle karega
+        
         return {"face_detected": True}
 
-    # ✅ Normal interview JSON request
+    
     try:
         data = await request.json()
     except Exception:

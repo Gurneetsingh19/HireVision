@@ -6,7 +6,7 @@ import google.generativeai as genai
 import json
 import os
 import fitz
-
+from face_API import router as face_router
 from interview import router as interview_router
 from voice import router as voice_router
 from auth import router as auth_router
@@ -30,6 +30,7 @@ app.include_router(auth_router)
 app.include_router(resume_router)
 app.include_router(voice_router)
 app.include_router(interview_router)
+app.include_router(face_router)
 
 # ✅ Gemini configure
 genai.configure(api_key=os.getenv("RESUME_GEMINI_API_KEY"))
