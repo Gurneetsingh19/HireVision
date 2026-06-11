@@ -1,11 +1,13 @@
 import cv2
 import numpy as np
-import mediapipe as mp
+import mediapipe.python.solutions.face_detection as mp_face_detection
 from fastapi import APIRouter, UploadFile, File
 
 router = APIRouter()
 
-face_detector = mp.solutions.face_detection.FaceDetection(
+
+face_detector = mp_face_detection.FaceDetection(
+    model_selection=0,
     min_detection_confidence=0.5
 )
 
