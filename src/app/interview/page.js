@@ -100,7 +100,7 @@ export default function InterviewRoom() {
 
         try {
           // ✅ FIX: API_URL use karo - same as interview endpoint
-          const response = await fetch(`${API_URL}/interview`, {
+          const response = await fetch(`${API_URL}/detect-face`, {
             method: "POST",
             body: formData,
           });
